@@ -1,0 +1,910 @@
+PS D:\Python310\django\repos\postgres_app> docker images
+REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
+archivarius_app5555      latest    5a60da063550   4 days ago     1GB
+postgres                 latest    b37c2a6c1506   7 days ago     376MB
+python                   latest    d25a66380b10   7 days ago     921MB
+alpine                   latest    9c6f07244728   2 weeks ago    5.54MB
+blog_web                 latest    bbb040d17019   7 weeks ago    1.04GB
+docker/getting-started   latest    cb90f98fd791   4 months ago   28.8MB
+PS D:\Python310\django\repos\postgres_app> docker rm 5a60da063550
+Error: No such container: 5a60da063550
+PS D:\Python310\django\repos\postgres_app> docker image rm 5a60da063550
+Error response from daemon: conflict: unable to delete 5a60da063550 (must be forced) - image is being used by stopped container 37cf823505cb
+PS D:\Python310\django\repos\postgres_app> docker rm 37cf823505cb
+37cf823505cb
+PS D:\Python310\django\repos\postgres_app> docker image rm 5a60da063550
+Untagged: archivarius_app5555:latest
+Deleted: sha256:5a60da0635503628c08f97dd1da1c95684bcd1d00006c68a4e291ee53bb88436
+Deleted: sha256:82a2af935f347640b48ae419c008a5f09fc3a5ce8889518eb3085db34cec77b0
+PS D:\Python310\django\repos\postgres_app> docker images
+REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
+postgres                 latest    b37c2a6c1506   7 days ago     376MB
+python                   latest    d25a66380b10   7 days ago     921MB
+alpine                   latest    9c6f07244728   2 weeks ago    5.54MB
+blog_web                 latest    bbb040d17019   7 weeks ago    1.04GB
+docker/getting-started   latest    cb90f98fd791   4 months ago   28.8MB
+PS D:\Python310\django\repos\postgres_app> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED      STATUS                    PORTS     NAMES
+035c5d46f12e   python:latest   "python3"                4 days ago   Exited (137) 4 days ago             archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago   Exited (0) 4 days ago               app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago   Exited (0) 6 days ago               gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker run -it --rm python:latest echo 'hi'
+hi
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED      STATUS                    PORTS     NAMES
+035c5d46f12e   python:latest   "python3"                4 days ago   Exited (137) 4 days ago             archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago   Exited (0) 4 days ago               app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago   Exited (0) 6 days ago               gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker run -it --name test python:latest echo 'hi'
+hi
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS                     PORTS     NAMES
+8b22e109d31a   python:latest   "echo hi"                5 seconds ago   Exited (0) 3 seconds ago             test
+035c5d46f12e   python:latest   "python3"                4 days ago      Exited (137) 4 days ago              archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago      Exited (0) 4 days ago                app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago      Exited (0) 6 days ago                gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker start test
+test
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS                     PORTS     NAMES
+8b22e109d31a   python:latest   "echo hi"                51 seconds ago   Exited (0) 9 seconds ago             test
+035c5d46f12e   python:latest   "python3"                4 days ago       Exited (137) 4 days ago              archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago       Exited (0) 4 days ago                app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago       Exited (0) 6 days ago                gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker start -it test /bin/sh
+unknown shorthand flag: 't' in -t
+See 'docker start --help'.
+PS D:\Python310\django\repos\postgres_app> docker start -i test /bin/sh
+you cannot start and attach multiple containers at once
+PS D:\Python310\django\repos\postgres_app> docker container ls
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS D:\Python310\django\repos\postgres_app> docker container ls -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED              STATUS                          PORTS     NAMES
+8b22e109d31a   python:latest   "echo hi"                About a minute ago   Exited (0) About a minute ago             test
+035c5d46f12e   python:latest   "python3"                4 days ago           Exited (137) 4 days ago                   archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago           Exited (0) 4 days ago                     app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago           Exited (0) 6 days ago                     gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker container ls --all
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS                          PORTS     NAMES
+8b22e109d31a   python:latest   "echo hi"                2 minutes ago   Exited (0) About a minute ago             test
+035c5d46f12e   python:latest   "python3"                4 days ago      Exited (137) 4 days ago                   archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago      Exited (0) 4 days ago                     app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago      Exited (0) 6 days ago                     gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker container rm test
+test
+PS D:\Python310\django\repos\postgres_app> docker container ls --all
+CONTAINER ID   IMAGE           COMMAND                  CREATED      STATUS                    PORTS     NAMES
+035c5d46f12e   python:latest   "python3"                4 days ago   Exited (137) 4 days ago             archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago   Exited (0) 4 days ago               app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago   Exited (0) 6 days ago               gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker container ls -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED      STATUS                    PORTS     NAMES
+035c5d46f12e   python:latest   "python3"                4 days ago   Exited (137) 4 days ago             archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago   Exited (0) 4 days ago               app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago   Exited (0) 6 days ago               gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED      STATUS                    PORTS     NAMES
+035c5d46f12e   python:latest   "python3"                4 days ago   Exited (137) 4 days ago             archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago   Exited (0) 4 days ago               app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago   Exited (0) 6 days ago               gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker run -it --name forever python
+Python 3.10.6 (main, Aug 23 2022, 08:25:41) [GCC 10.2.1 20210110] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> exit()
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS                      PORTS     NAMES
+471f5a6a6935   python          "python3"                24 seconds ago   Exited (0) 14 seconds ago             forever
+035c5d46f12e   python:latest   "python3"                4 days ago       Exited (137) 4 days ago               archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago       Exited (0) 4 days ago                 app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago       Exited (0) 6 days ago                 gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker start forever
+forever
+PS D:\Python310\django\repos\postgres_app> docker ps
+CONTAINER ID   IMAGE     COMMAND     CREATED         STATUS         PORTS     NAMES
+471f5a6a6935   python    "python3"   2 minutes ago   Up 3 seconds             forever
+PS D:\Python310\django\repos\postgres_app> docker inspect forever
+[
+    {
+        "Id": "471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2",
+        "Created": "2022-08-30T16:45:00.3133556Z",
+        "Path": "python3",
+        "Args": [],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 1555,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2022-08-30T16:47:11.837153Z",
+            "FinishedAt": "2022-08-30T16:46:41.2855111Z"
+        },
+        "Image": "sha256:d25a66380b10283603ff696d7777bba5cdb1b9126fb0be7d118b9574946bcf84",
+        "ResolvConfPath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/hostname",
+        "HostsPath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/hosts",
+        "LogPath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2-json.log",
+        "Name": "/forever",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                28,
+                105
+            ],
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "KernelMemory": 0,
+            "KernelMemoryTCP": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84-init/diff:/var/lib/docker/overlay2/f08dbbf5d189cc8093a953c4c6b3051de8c8a2d3e8d9a45b7212c91a582fd4de/diff:/var/lib/docker/overlay2/cb8d19da1cc23b5c964bbfb61ee9fd686f3ec417da20d451cc89e1fe6f32fa6a/diff:/var/lib/docker/overlay2/3c9a0a635196959ddee94521d77c3a96739db2126ac99c3d9a2a5a17fc73e2b9/diff:/var/lib/docker/overlay2/ae2de44ccf30ed3a94dd69b92e3a0ff00b91de6d1b3062a9205dee5c0cb36491/diff:/var/lib/docker/overlay2/308c38d8f5e8272573815d42a02c1b5b8660565c36329f97304b35eebb5175e7/diff:/var/lib/docker/overlay2/fd9c8166015355ab06346391fef7619c2e894435bd4b2d362a050a99658b02be/diff:/var/lib/docker/overlay2/8ff370ac12c7c89640d29c0e6a447253694cc29f4d1fcb0a8e9e4a5dc5b81178/diff:/var/lib/docker/overlay2/0c2d6d1d08b8f58c8a043b64116d5be87e06744a1dc12495aab5222d148089c1/diff:/var/lib/docker/overlay2/c9aefcd68604d5de80820c1e358eaf0f8577d220c87448afa0bced1727e7afd7/diff",
+                "MergedDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84/merged",
+                "UpperDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84/diff",
+                "WorkDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "471f5a6a6935",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": true,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": true,
+            "OpenStdin": true,
+            "StdinOnce": true,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.10.6",
+                "PYTHON_PIP_VERSION=22.2.1",
+                "PYTHON_SETUPTOOLS_VERSION=63.2.0",
+                "PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/5eaac1050023df1f5c98b173b248c260023f2278/public/get-pip.py",
+                "PYTHON_GET_PIP_SHA256=5aefe6ade911d997af080b315ebcb7f882212d070465df544e1175ac2be519b4"
+            ],
+            "Cmd": [
+                "python3"
+            ],
+            "Image": "python",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "882923790c6258a92e5485bd284ca741ec0492669ae05289445340c5fb4b698f",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/var/run/docker/netns/882923790c62",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "61362201590b5e1e87c4876563a76f5cab64b3b05f75a3ff9600465618c7adfa",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "2e819c2e2afd909a6c08596ccb197858372c413db77653b1cad1228cd5f34246",
+                    "EndpointID": "61362201590b5e1e87c4876563a76f5cab64b3b05f75a3ff9600465618c7adfa",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+PS D:\Python310\django\repos\postgres_app> docker restart forever
+forever
+PS D:\Python310\django\repos\postgres_app> docker inspect forever
+[
+    {
+        "Id": "471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2",
+        "Created": "2022-08-30T16:45:00.3133556Z",
+        "Path": "python3",
+        "Args": [],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 1647,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2022-08-30T16:51:20.9614725Z",
+            "FinishedAt": "2022-08-30T16:51:19.6465852Z"
+        },
+        "Image": "sha256:d25a66380b10283603ff696d7777bba5cdb1b9126fb0be7d118b9574946bcf84",
+        "ResolvConfPath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/hostname",
+        "HostsPath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/hosts",
+        "LogPath": "/var/lib/docker/containers/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2/471f5a6a693537ae49546eb59ff2515ac331d1425b3b3e6e6fc80cc0d9ec39f2-json.log",
+        "Name": "/forever",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                28,
+                105
+            ],
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "KernelMemory": 0,
+            "KernelMemoryTCP": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84-init/diff:/var/lib/docker/overlay2/f08dbbf5d189cc8093a953c4c6b3051de8c8a2d3e8d9a45b7212c91a582fd4de/diff:/var/lib/docker/overlay2/cb8d19da1cc23b5c964bbfb61ee9fd686f3ec417da20d451cc89e1fe6f32fa6a/diff:/var/lib/docker/overlay2/3c9a0a635196959ddee94521d77c3a96739db2126ac99c3d9a2a5a17fc73e2b9/diff:/var/lib/docker/overlay2/ae2de44ccf30ed3a94dd69b92e3a0ff00b91de6d1b3062a9205dee5c0cb36491/diff:/var/lib/docker/overlay2/308c38d8f5e8272573815d42a02c1b5b8660565c36329f97304b35eebb5175e7/diff:/var/lib/docker/overlay2/fd9c8166015355ab06346391fef7619c2e894435bd4b2d362a050a99658b02be/diff:/var/lib/docker/overlay2/8ff370ac12c7c89640d29c0e6a447253694cc29f4d1fcb0a8e9e4a5dc5b81178/diff:/var/lib/docker/overlay2/0c2d6d1d08b8f58c8a043b64116d5be87e06744a1dc12495aab5222d148089c1/diff:/var/lib/docker/overlay2/c9aefcd68604d5de80820c1e358eaf0f8577d220c87448afa0bced1727e7afd7/diff",
+                "MergedDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84/merged",
+                "UpperDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84/diff",
+                "WorkDir": "/var/lib/docker/overlay2/c4608bd83b3a9b819196ff4c72d51b4083ec1506b050a4960a026ba490ae6b84/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "471f5a6a6935",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": true,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": true,
+            "OpenStdin": true,
+            "StdinOnce": true,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.10.6",
+                "PYTHON_PIP_VERSION=22.2.1",
+                "PYTHON_SETUPTOOLS_VERSION=63.2.0",
+                "PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/5eaac1050023df1f5c98b173b248c260023f2278/public/get-pip.py",
+                "PYTHON_GET_PIP_SHA256=5aefe6ade911d997af080b315ebcb7f882212d070465df544e1175ac2be519b4"
+            ],
+            "Cmd": [
+                "python3"
+            ],
+            "Image": "python",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "9a108d161fa301e1fa5538e4777762dd24e042aaeb0e25978e8087dd13a96b08",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/var/run/docker/netns/9a108d161fa3",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "5168fb4b8fc47accc3333780d8772c8120962de5f632ca2b5a6e40a0a69bef84",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "2e819c2e2afd909a6c08596ccb197858372c413db77653b1cad1228cd5f34246",
+                    "EndpointID": "5168fb4b8fc47accc3333780d8772c8120962de5f632ca2b5a6e40a0a69bef84",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+PS D:\Python310\django\repos\postgres_app> docker stop forever
+forever
+PS D:\Python310\django\repos\postgres_app> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS D:\Python310\django\repos\postgres_app> docker rm forever
+forever
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED      STATUS                    PORTS     NAMES
+035c5d46f12e   python:latest   "python3"                4 days ago   Exited (137) 4 days ago             archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago   Exited (0) 4 days ago               app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago   Exited (0) 6 days ago               gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker run --name mine python echo 'started'
+started
+PS D:\Python310\django\repos\postgres_app> docker start mine
+mine
+PS D:\Python310\django\repos\postgres_app> docker inspect mine | Select-String -SimpleMatch "CMD"        
+            "Cmd": [
+
+
+PS D:\Python310\django\repos\postgres_app> docker inspect mine
+[
+    {
+        "Id": "7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b",
+        "Created": "2022-08-30T16:54:59.8282451Z",
+        "Path": "echo",
+        "Args": [
+            "started"
+        ],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2022-08-30T16:55:14.2016153Z",
+            "FinishedAt": "2022-08-30T16:55:14.1984931Z"
+        },
+        "Image": "sha256:d25a66380b10283603ff696d7777bba5cdb1b9126fb0be7d118b9574946bcf84",
+        "ResolvConfPath": "/var/lib/docker/containers/7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b/hostname",
+        "HostsPath": "/var/lib/docker/containers/7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b/hosts",
+        "LogPath": "/var/lib/docker/containers/7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b/7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b-json.log",
+        "Name": "/mine",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                28,
+                105
+            ],
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "KernelMemory": 0,
+            "KernelMemoryTCP": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/48e40cd4a2909019d1f1044298db9449d6b1744b021fb18766254ff9d41f8a14-init/diff:/var/lib/docker/overlay2/f08dbbf5d189cc8093a953c4c6b3051de8c8a2d3e8d9a45b7212c91a582fd4de/diff:/var/lib/docker/overlay2/cb8d19da1cc23b5c964bbfb61ee9fd686f3ec417da20d451cc89e1fe6f32fa6a/diff:/var/lib/docker/overlay2/3c9a0a635196959ddee94521d77c3a96739db2126ac99c3d9a2a5a17fc73e2b9/diff:/var/lib/docker/overlay2/ae2de44ccf30ed3a94dd69b92e3a0ff00b91de6d1b3062a9205dee5c0cb36491/diff:/var/lib/docker/overlay2/308c38d8f5e8272573815d42a02c1b5b8660565c36329f97304b35eebb5175e7/diff:/var/lib/docker/overlay2/fd9c8166015355ab06346391fef7619c2e894435bd4b2d362a050a99658b02be/diff:/var/lib/docker/overlay2/8ff370ac12c7c89640d29c0e6a447253694cc29f4d1fcb0a8e9e4a5dc5b81178/diff:/var/lib/docker/overlay2/0c2d6d1d08b8f58c8a043b64116d5be87e06744a1dc12495aab5222d148089c1/diff:/var/lib/docker/overlay2/c9aefcd68604d5de80820c1e358eaf0f8577d220c87448afa0bced1727e7afd7/diff",
+                "MergedDir": "/var/lib/docker/overlay2/48e40cd4a2909019d1f1044298db9449d6b1744b021fb18766254ff9d41f8a14/merged",
+                "UpperDir": "/var/lib/docker/overlay2/48e40cd4a2909019d1f1044298db9449d6b1744b021fb18766254ff9d41f8a14/diff",
+                "WorkDir": "/var/lib/docker/overlay2/48e40cd4a2909019d1f1044298db9449d6b1744b021fb18766254ff9d41f8a14/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "7e25d58da9ec",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.10.6",
+                "PYTHON_PIP_VERSION=22.2.1",
+                "PYTHON_SETUPTOOLS_VERSION=63.2.0",
+                "PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/5eaac1050023df1f5c98b173b248c260023f2278/public/get-pip.py",
+                "PYTHON_GET_PIP_SHA256=5aefe6ade911d997af080b315ebcb7f882212d070465df544e1175ac2be519b4"
+            ],
+            "Cmd": [
+                "echo",
+                "started"
+            ],
+            "Image": "python",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "0e8be3c44c7a2046a37d1ff71f75721277746724cc574fb98f3da73a468d1889",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/var/run/docker/netns/0e8be3c44c7a",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "2e819c2e2afd909a6c08596ccb197858372c413db77653b1cad1228cd5f34246",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+PS D:\Python310\django\repos\postgres_app> dir
+
+
+    Каталог: D:\Python310\django\repos\postgres_app
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        25.08.2022     21:59                .idea
+d-----        25.08.2022     21:16                archivarious
+d-----        25.08.2022     21:24                archive
+d-----        25.08.2022     19:44                venv
+-a----        30.08.2022     19:41             73 hola.py
+-a----        25.08.2022     20:58            690 manage.py
+-a----        25.08.2022     20:58             18 README.md
+-a----        25.08.2022     21:37             79 requirements.txt
+-a----        25.08.2022     19:17              0 start
+-a----        25.08.2022     21:17           3322 Рисунок1.png
+
+
+PS D:\Python310\django\repos\postgres_app> ls
+
+
+    Каталог: D:\Python310\django\repos\postgres_app
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        25.08.2022     21:59                .idea
+d-----        25.08.2022     21:16                archivarious
+d-----        25.08.2022     21:24                archive
+d-----        25.08.2022     19:44                venv
+-a----        30.08.2022     19:41             73 hola.py
+-a----        25.08.2022     20:58            690 manage.py
+-a----        25.08.2022     20:58             18 README.md
+-a----        25.08.2022     21:37             79 requirements.txt
+-a----        25.08.2022     19:17              0 start
+-a----        25.08.2022     21:17           3322 Рисунок1.png
+
+
+PS D:\Python310\django\repos\postgres_app> py .\hola.py
+Hola!
+Hola!
+Traceback (most recent call last):
+  File "D:\Python310\django\repos\postgres_app\hola.py", line 5, in <module>
+    sleep(2)
+KeyboardInterrupt
+PS D:\Python310\django\repos\postgres_app> docker cp .\hola.py mine:\home\
+PS D:\Python310\django\repos\postgres_app> docker exec mine ls \home
+Error response from daemon: Container 7e25d58da9ec535080e27d260c0e1dd5a4eee457cbae4ef5b33e483c4b68d54b is not running
+PS D:\Python310\django\repos\postgres_app> docker start mine ls \home
+mine
+Error response from daemon: No such container: ls
+Error response from daemon: No such container: \home
+Error: failed to start containers: ls, \home
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS                     PORTS     NAMES
+7e25d58da9ec   python          "echo started"           8 minutes ago   Exited (0) 3 minutes ago             mine
+035c5d46f12e   python:latest   "python3"                4 days ago      Exited (137) 4 days ago              archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago      Exited (0) 4 days ago                app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago      Exited (0) 6 days ago                gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker commit 7e25d58da9ec copy_mine
+sha256:0d47667fe1d3cc707155cfa9c4a0f78ab0bb0b2aebdebbb6860943d1ac331a25
+PS D:\Python310\django\repos\postgres_app> docker images
+REPOSITORY               TAG       IMAGE ID       CREATED         SIZE
+copy_mine                latest    0d47667fe1d3   6 seconds ago   921MB
+postgres                 latest    b37c2a6c1506   7 days ago      376MB
+python                   latest    d25a66380b10   7 days ago      921MB
+alpine                   latest    9c6f07244728   3 weeks ago     5.54MB
+blog_web                 latest    bbb040d17019   7 weeks ago     1.04GB
+docker/getting-started   latest    cb90f98fd791   4 months ago    28.8MB
+PS D:\Python310\django\repos\postgres_app> docker rm mine
+mine
+PS D:\Python310\django\repos\postgres_app> docker run --name mine copy_mine ls /home/ -a
+.
+..
+hola.py
+PS D:\Python310\django\repos\postgres_app> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS D:\Python310\django\repos\postgres_app> docker ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS                     PORTS     NAMES
+3f5ab15a0faa   copy_mine       "ls /home/ -a"           2 minutes ago   Exited (0) 2 minutes ago             mine
+035c5d46f12e   python:latest   "python3"                4 days ago      Exited (137) 4 days ago              archivarius_app
+b53d3dde4c30   postgres        "docker-entrypoint.s…"   6 days ago      Exited (0) 4 days ago                app_database
+b68ecfe32b25   alpine          "/bin/sh"                6 days ago      Exited (0) 6 days ago                gifted_bartik
+PS D:\Python310\django\repos\postgres_app> docker commit 3f5ab15a0faa new_copy
+sha256:a80bf16455dd36de938343f1802d6f91ac63922df53464f1bf921bcebdf7e99e
+PS D:\Python310\django\repos\postgres_app> docker rm mine
+mine
+PS D:\Python310\django\repos\postgres_app> docker image rm copy_mine
+Untagged: copy_mine:latest
+PS D:\Python310\django\repos\postgres_app> docker images
+REPOSITORY               TAG       IMAGE ID       CREATED          SIZE
+new_copy                 latest    a80bf16455dd   43 seconds ago   921MB
+postgres                 latest    b37c2a6c1506   7 days ago       376MB
+python                   latest    d25a66380b10   7 days ago       921MB
+alpine                   latest    9c6f07244728   3 weeks ago      5.54MB
+blog_web                 latest    bbb040d17019   7 weeks ago      1.04GB
+docker/getting-started   latest    cb90f98fd791   4 months ago     28.8MB
+PS D:\Python310\django\repos\postgres_app> docker run --name mine new_copy python3 /home/hola.py
+PS D:\Python310\django\repos\postgres_app> dockre start mine -d
+dockre : Имя "dockre" не распознано как имя командлета, функции, файла сценария или выполняемой программ
+ы. Проверьте правильность написания имени, а также наличие и правильность пути, после чего повторите поп
+ытку.
+строка:1 знак:1
++ dockre start mine -d
++ ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (dockre:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS D:\Python310\django\repos\postgres_app> docker start mine -d
+unknown shorthand flag: 'd' in -d
+See 'docker start --help'.
+PS D:\Python310\django\repos\postgres_app> docker start mine
+mine
+PS D:\Python310\django\repos\postgres_app> docker ps
+CONTAINER ID   IMAGE      COMMAND                  CREATED              STATUS          PORTS     NAMES
+d7007587538d   new_copy   "python3 /home/hola.…"   About a minute ago   Up 19 seconds             mine
+PS D:\Python310\django\repos\postgres_app> docker attach mine
+PS D:\Python310\django\repos\postgres_app> docker log mine
+docker: 'log' is not a docker command.
+See 'docker --help'
+PS D:\Python310\django\repos\postgres_app> docker logs mine
+PS D:\Python310\django\repos\postgres_app> docker rm mine
+mine
+PS D:\Python310\django\repos\postgres_app> docker run --name -it mine new_copy python3 /home/hola.py
+Unable to find image 'mine:latest' locally
+docker: Error response from daemon: pull access denied for mine, repository does not exist or may require 'docker login': denied: requested access to the resource is denied.
+See 'docker run --help'.
+PS D:\Python310\django\repos\postgres_app> docker run -it --name mine new_copy python3 /home/hola.py
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+^CTraceback (most recent call last):
+  File "/home/hola.py", line 5, in <module>
+    sleep(2)
+KeyboardInterrupt
+PS D:\Python310\django\repos\postgres_app> docker attach mine
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+Hola!
+^CTraceback (most recent call last):
+  File "/home/hola.py", line 5, in <module>
+    sleep(2)
+KeyboardInterrupt
+PS D:\Python310\django\repos\postgres_app>

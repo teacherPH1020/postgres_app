@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+
+DATABASE_IP = os.getenv('DATABASE_IP' , 'localhost')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +30,7 @@ SECRET_KEY = 'django-insecure-+sl(d31d%@$2zas=vvea(s$*u4cs92o#0*3c-jh6_z(&*=ad7v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -55,7 +60,7 @@ ROOT_URLCONF = 'archivarious.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR /'archivarious/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +85,7 @@ DATABASES = {
         'NAME': 'django_db',
         'USER' : 'django',
         'PASSWORD': 'django',
-        'HOST': 'localhost',
+        'HOST': DATABASE_IP,
         'PORT': '5555'
     }
 }
